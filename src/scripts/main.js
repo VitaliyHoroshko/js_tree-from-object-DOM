@@ -7,24 +7,28 @@ export function createTree(element, data) {
 
   element.appendChild(ul);
 
-  for (const key in data) {
-    const li = document.createElement('li');
-    const value = data[key];
+  function buildList(parentUl, obj) {
+    for (const key in obj) {
+      const value = obj[key];
+      const li = document.createElement('li');
 
-    const hasChildren =
-      value && typeof value === 'object' && Object.keys(value).length > 0;
+      const hasChildren =
+        value && typeof value === 'object' && Object.keys(value).length > 0;
 
-    if (hasChildren) {
-      li.textContent = `◦ ${key}`;
+      if (hasChildren) {
+        li.textContent = `◦ ${key}`;
 
-      const nestedUl = document.createElement('ul');
+        const nestedUl = document.createElement('ul');
 
-      li.appendChild(nestedUl);
-      createTree(nestedUl, value);
-    } else {
-      li.textContent = `• ${key}`;
+        li.appendChild(nestedUl);
+        buildList(nestedUl, value);
+      } else {
+        li.textContent = `• ${key}`;
+      }
+
+      parentUl.appendChild(li);
     }
-
-    ul.appendChild(li);
   }
+
+  buildList(ul, data);
 }
