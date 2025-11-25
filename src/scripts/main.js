@@ -5,9 +5,11 @@ export function createTree(element, data) {
 
   const ul = document.createElement('ul');
 
+  element.appendChild(ul);
+
   for (const key in data) {
-    const value = data[key];
     const li = document.createElement('li');
+    const value = data[key];
 
     const hasChildren =
       value && typeof value === 'object' && Object.keys(value).length > 0;
@@ -25,6 +27,4 @@ export function createTree(element, data) {
 
     ul.appendChild(li);
   }
-
-  element.appendChild(ul);
 }
